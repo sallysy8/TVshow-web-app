@@ -1,1 +1,8 @@
-<p>current-show works!</p>
+<div>
+    <div [innerHTML]="current.showname"></div>
+    <div>
+        <img [src]="current.showimage" />
+        <span>{{ current.date }}</span>
+    </div>
+    <div [innerHTML]="current.showdescription"></div>
+</div>
