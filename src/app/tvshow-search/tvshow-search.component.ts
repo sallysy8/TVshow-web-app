@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ShowService } from '../show/show.service';
-
+import { Component, Output, OnInit, EventEmitter } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
+import { ShowService } from "../show/show.service";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
-  selector: 'app-tvshow-search',
-  templateUrl: './tvshow-search.component.html',
-  styleUrls: ['./tvshow-search.component.css']
+  selector: "app-tvshow-search",
+  templateUrl: "./tvshow-search.component.html",
+  styleUrls: ["./tvshow-search.component.css"]
 })
 export class TVShowSearchComponent implements OnInit {
-  search = new FormControl();
-  constructor(private ShowService: ShowService) {
-
-   }
+  @Output() searchEvent = new EventEmitter<string>();
+  search = new FormControl("", [Validators.minLength(3)]);
+  constructor() {}
 
   ngOnInit() {
-    this.search.valueChanges.subscribe((searchValue: string) =>{
-      const userInput = searchValue.trim();
-      this.ShowService.getCurrentTVshow(userInput).subscribe(data => console.log(data));
-    })
+    this.search.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe((searchValue: string) => {
+        if (!this.search.invalid) {
+          this.searchEvent.emit(searchValue);
+        }
+      });
   }
-
-
 }

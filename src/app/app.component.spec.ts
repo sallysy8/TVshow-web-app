@@ -1,16 +1,44 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {
+  MatButtonModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatInputModule
+} from "@angular/material";
+import { TVShowSearchComponent } from "./tvshow-search/tvshow-search.component";
+import { CurrentShowComponent } from "./current-show/current-show.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ShowService } from "./show/show.service";
+import { ShowServiceFake } from "./show/show.service.fake";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        HttpClientTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent, 
+        TVShowSearchComponent,
+        CurrentShowComponent
       ],
+      providers: [{provide: ShowService, useClass: ShowServiceFake}],
     }).compileComponents();
   }));
 
@@ -25,11 +53,5 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('TVshow-web-app');
   });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to TVshow-web-app!');
-  });
+  
 });

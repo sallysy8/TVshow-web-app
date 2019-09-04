@@ -3,6 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { ICurrentShow } from "../icurrent-show";
 import { map } from "rxjs/operators";
+import { Observable } from 'rxjs';
+
+
+export interface IShowService{
+  getCurrentTVshow(search: string) : Observable<ICurrentShow>
+}
 
 interface ICurrentShowData {
   id: number;
@@ -11,7 +17,7 @@ interface ICurrentShowData {
   genres: [];
   status: string;
   runtime: number;
-  premiered: Date;
+  premiered: string;
   officialSite: string;
   schedule: {
     time: string;
@@ -26,10 +32,11 @@ interface ICurrentShowData {
   summary: string;
 }
 
-@Injectable({
+@Injectable
+  ({
   providedIn: "root"
 })
-export class ShowService {
+export class ShowService implements IShowService{
   constructor(private httpClient: HttpClient) {}
 
   getCurrentTVshow(search: string) {
@@ -46,6 +53,8 @@ export class ShowService {
       channel: data.id,
       showname: data.name,
       airdate: data.premiered,
+      time: data.schedule.time,
+      days: data.schedule.days,
       showimage: data.image.medium,
       showdescription: data.summary
     };

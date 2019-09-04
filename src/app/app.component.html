@@ -1,9 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    TV Shows 
-  </h1>
- `<div>Please type in the name of the TV Show.</div>
-  <h2>Channel</h2>
-  <app-current-show></app-current-show>
+  <mat-toolbar color="primary">
+    <span>TV Shows Finder</span>
+  </mat-toolbar>
+  <div>Enjoy your TVshow!</div>
+  <div>
+    <app-tvshow-search (searchEvent)="doSearch($event)"></app-tvshow-search>
+  </div>
+  <mat-card color="primary">
+    <h2>Show Name</h2>
+    <app-current-show [current]="currentShow"></app-current-show>
+  </mat-card>
 </div>
